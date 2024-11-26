@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Registration Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 50%;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        h2 {
+            text-align: center;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        input[type="text"], input[type="email"], input[type="number"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        input[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            font-size: 0.9em;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Student Registration Form</h2>
+        <form id="registrationForm">
+            <div id="errorMessages"></div>
+            <label for="studentName">Name:</label>
+            <input type="text" id="studentName" name="studentName" required placeholder="Enter your full name">
+             
+            <label for="age">Age:</label>
+            <input type="number" id="age" name="age" required placeholder="Enter your age">
+            
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required placeholder="Enter your email">
+            
+            <label for="gender">Gender:</label>
+            <select id="gender" name="gender">
+                <option value="">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="course">Course:</label>
+            <select id="course" name="course" required>
+                <option value="">Select Course</option>
+                <option value="computer-science">Computer Science</option>
+                <option value="mathematics">Mathematics</option>
+                <option value="biology">Biology</option>
+                <option value="literature">Literature</option>
+            </select>
+
+            <label for="comments">Additional Comments:</label>
+            <textarea id="comments" name="comments" rows="4" placeholder="Any additional comments"></textarea>
+
+            <input type="submit" value="Register">
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent form from submitting
+            
+            // Clear previous error messages
+            document.getElementById('errorMessages').innerHTML = '';
+            
+            let errors = [];
+            let studentName = document.getElementById('studentName').value;
+            let age = document.getElementById('age').value;
+            let email = document.getElementById('email').value;
+            let gender = document.getElementById('gender').value;
+            let course = document.getElementById('course').value;
+
+            // Validation checks
+            if (studentName.trim() === '') {
+                errors.push('Name is required.');
+            }
+
+            if (age.trim() === '' || age < 18 || age > 100) {
+                errors.push('Please enter a valid age (18 - 100).');
+            }
+
+            if (email.trim() === '') {
+                errors.push('Email is required.');
+            } else if (!validateEmail(email)) {
+                errors.push('Please enter a valid email address.');
+            }
+
+            if (gender === '') {
+                errors.push('Gender is required.');
+            }
+
+            if (course === '') {
+                errors.push('Please select a course.');
+            }
+
+            // If errors exist, display them
+            if (errors.length > 0) {
+                let errorList = '<ul>';
+                errors.forEach(function(error) {
+                    errorList += `<li>${error}</li>`;
+                });
+                errorList += '</ul>';
+                document.getElementById('errorMessages').innerHTML = `<div class="error">${errorList}</div>`;
+            } else {
+                alert('Registration successful!');
+                // You can send form data to the server here, using AJAX or other methods.
+                // Example:
+                // let formData = new FormData(document.getElementById('registrationForm'));
+                // sendData(formData);
+            }
+        });
+
+        // Email validation function
+        function validateEmail(email) {
+            const regex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return regex.test(email);
+        }
+    </script>
+
+</body>
+</html>
+00
